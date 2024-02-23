@@ -24,9 +24,20 @@ account:
       context: ../store.account-resource/
       dockerfile: Dockerfile
     image: store-account:latest
+    ports:
+      - 8080:8080
     environment:
       - spring.datasource.url=jdbc:postgresql://db-store:5432/store
-      - 
+      - spring.datasource.username=store
+      - spring.datasource.password=store
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: always
+    networks:
+      - private-network
+    depends_on:
+      - db-store
 
 networks:
   private-network:
